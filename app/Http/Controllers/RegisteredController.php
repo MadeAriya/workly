@@ -47,7 +47,7 @@ class RegisteredController extends Controller
             'new_password' => 'required|confirmed|min:8',
         ]);
 
-        $user = User::find(Auth::id()); 
+        $user = User::find(Auth::id());
 
         if (!Hash::check($request->current_password, $user->password)) {
             return redirect()->route('manage_absensi')->with('error', 'Password lama tidak cocok.');
@@ -61,6 +61,9 @@ class RegisteredController extends Controller
         return redirect()->route('login')->with('success', 'Password berhasil diubah.');
     }
 
-
-
+    public function delete(string $id){
+        $user = User::find($id);
+        $user->delete();
+        return redirect()->route('user.index')->with('success', 'Data berhasil dihapus');
+    }
 }

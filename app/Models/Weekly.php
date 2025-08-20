@@ -24,4 +24,9 @@ class Weekly extends Model
         'tanggalMulai' => 'date',
         'tanggalSelesai' => 'date',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'users_id');
+    }
 }

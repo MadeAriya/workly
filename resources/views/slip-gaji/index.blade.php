@@ -79,49 +79,48 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Data Slip Gaji</h3>
+                                <div class="card-header">
+                                    <h3 class="card-title">Data Slip Gaji</h3>
+                                    <div class="card-tools">
+                                        <a href="{{ route('manage_slipgaji.create') }}" class="btn btn-primary">
+                                            <i class="fas fa-plus"></i> Tambah Data
+                                        </a>
                                     </div>
-                                    <!-- /.card-header -->
-                                    <div class="card-body">
-                                        <button class="btn btn-primary mb-2">
-                                            <a href="{{ route('manage_slipgaji.create') }}" class="text-white">Tambah
-                                                Data</a>
-                                        </button>
-                                        <table id="example1" class="table table-bordered table-striped">
-                                            <thead>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <table id="example1" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Nama Karyawan</th>
+                                                <th>No. Payroll</th>
+                                                <th>File PDF</th>
+                                                <th>Tanggal Generate</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($slipgaji as $row)
                                                 <tr>
-                                                    <th>No</th>
-                                                    <th>Nama Karyawan</th>
-                                                    <th>No. Payroll</th>
-                                                    <th>Dile Pdf</th>
-                                                    <th>Tanggal Generate</th>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $row->user->username }}</td>
+                                                    <td>{{ $row->payroll_id }}</td>
+                                                    <td>
+                                                        <a href="{{ route('manage_slipgaji.download', $row->id) }}" target="_blank">
+                                                            {{ $row->file_pdf }}
+                                                        </a>
+                                                    </td>
+                                                    <td>{{ $row->tanggal_generate}}</td>
+                                                    <td>
+                                                        <a href="{{ route('manage_slipgaji.download', $row->id) }}" class="btn btn-success btn-sm" data-toggle="tooltip" title="Download Slip Gaji">
+                                                            <i class="fas fa-download"></i>
+                                                        </a>
+                                                    </td>
                                                 </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($slipgaji as $row)
-                                                    <tr>
-                                                        <th>{{ $row->id }}</th>
-                                                        <th>{{ $row->user->username }}</th>
-                                                        <th>{{ $row->payroll_id }}</th>
-                                                        <th>{{ $row->file_pdf}}</th>
-                                                        <th>{{ $row->tanggal_generate}}</th>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>No</th>
-                                                    <th>Nama Karyawan</th>
-                                                    <th>No. Payroll</th>
-                                                    <th>Dile Pdf</th>
-                                                    <th>Tanggal Generate</th>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                    </div>
-                                    <!-- /.card-body -->
+                                            @endforeach
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <!-- /.card -->
                             </div>
@@ -135,13 +134,7 @@
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
-        <footer class="main-footer">
-            <div class="float-right d-none d-sm-block">
-                <b>Version</b> 3.2.0
-            </div>
-            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
-            reserved.
-        </footer>
+        @include('partials.footer')
 
         <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">

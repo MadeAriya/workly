@@ -48,47 +48,45 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Data Agenda dari {{ $user->username }}</h3>
-                                    </div>
-                                    <!-- /.card-header -->
-                                    <div class="card-body">
-                                        <table id="example1" class="table table-bordered table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Id</th>
-                                                    <th>Nama Kegiatan</th>
-                                                    <th>Waktu</th>
-                                                    <th>Tempat</th>
-                                                    <th>Agenda</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($agenda as $row)
-                                                <tr>
-                                                    <th>{{ $row->id }}</th>
-                                                    <th>{{ $row->nama }}</th>
-                                                    <th>{{ $row->waktu }}</th>
-                                                    <th>{{ $row->tempat }}</th>
-                                                    <th>{{ $row->agenda }}</th>
-                                                </tr>
-                                                @endforeach
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>Id</th>
-                                                    <th>Nama Kegiatan</th>
-                                                    <th>Waktu</th>
-                                                    <th>Tempat</th>
-                                                    <th>Agenda</th>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                    </div>
-                                    <!-- /.card-body -->
+                                <div class="card-header">
+                                    <h3 class="card-title">Data Agenda dari {{ $user->username }}</h3>
                                 </div>
-                                <!-- /.card -->
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <table id="example1" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Nama Kegiatan</th>
+                                                <th>Waktu</th>
+                                                <th>Tempat</th>
+                                                <th>Agenda</th>
+                                                <th>Skor</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($agenda as $row)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $row->nama }}</td>
+                                                <td>{{ $row->waktu }}</td>
+                                                <td>{{ $row->tempat }}</td>
+                                                <td>{{ $row->agenda }}</td>
+                                                <td>{{ $row->skor ?? 'Belum dinilai' }}</td>
+                                                <td>
+                                                    @if (Auth::check() && Auth::user()->jabatan === 'admin')
+                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-give-skor-{{ $row->id }}">
+                                                            Beri Skor
+                                                        </button>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
                             </div>
                             <!-- /.col -->
                         </div>
@@ -100,13 +98,37 @@
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
-        <footer class="main-footer">
-            <div class="float-right d-none d-sm-block">
-                <b>Version</b> 3.2.0
+        @include('partials.footer')
+
+        @foreach ($agenda as $row)
+        <div class="modal fade" id="modal-give-skor-{{ $row->id }}">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Beri Skor</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('manage_agenda.giveskor', $row->id) }}" method="POST">
+                            {{ csrf_field() }}
+                            <div class="form-group">
+                                <label for="skor">Skor</label>
+                                <input type="number" class="form-control" id="skor" placeholder="Enter skor" name="skor">
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
             </div>
-            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
-            reserved.
-        </footer>
+            <!-- /.modal-dialog -->
+        </div>
+        @endforeach
 
         <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">

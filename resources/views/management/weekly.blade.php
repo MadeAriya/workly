@@ -48,55 +48,43 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Data Weekly dari {{ $user->username }} </h3>
-                                    </div>
-                                    <!-- /.card-header -->
-                                    <div class="card-body">
-                                        <table id="example1" class="table table-bordered table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>No</th>
-                                                    <th>Jabatan</th>
-                                                    <th>Minggu Ke</th>
-                                                    <th>Tanggal Mulai</th>
-                                                    <th>Tanggal Selesai</th>
-                                                    <th>KPI - Sasaran Kerja</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($weekly as $row)
-                                                <tr>
-                                                    <th>{{ $row->id }}</th>
-                                                    <th>{{ $row->jabatan }}</th>
-                                                    <th>{{ $row->minggu }}</th>
-                                                    <th>{{ $row->tanggalMulai }}</th>
-                                                    <th>{{ $row->tanggalSelesai }}</th>
-                                                    <th>
-                                                        <ul>
-                                                            @foreach(json_decode($row->target, true) as $item)
-                                                                <li>{{ $item }}</li>
-                                                            @endforeach
-                                                        </ul>
-                                                    </th>
-                                                @endforeach
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>No</th>
-                                                    <th>Jabatan</th>
-                                                    <th>Minggu Ke</th>
-                                                    <th>Tanggal Mulai</th>
-                                                    <th>Tanggal Selesai</th>
-                                                    <th>KPI - Sasaran Kerja</th>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                    </div>
-                                    <!-- /.card-body -->
+                                <div class="card-header">
+                                    <h3 class="card-title">Data Weekly dari {{ $user->username }}</h3>
                                 </div>
-                                <!-- /.card -->
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <table id="example1" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Jabatan</th>
+                                                <th>Minggu Ke</th>
+                                                <th>Tanggal Mulai</th>
+                                                <th>Tanggal Selesai</th>
+                                                <th>KPI - Sasaran Kerja</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($weekly as $row)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $row->jabatan }}</td>
+                                                <td>{{ $row->minggu }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($row->tanggalMulai)->format('Y-m-d') }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($row->tanggalSelesai)->format('Y-m-d') }}</td>
+                                                <td>
+                                                    <ul>
+                                                        @foreach($row->target as $item)
+                                                            <li style="list-style-type:none;">{{ $item }}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
                             </div>
                             <!-- /.col -->
                         </div>
@@ -108,13 +96,7 @@
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
-        <footer class="main-footer">
-            <div class="float-right d-none d-sm-block">
-                <b>Version</b> 3.2.0
-            </div>
-            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
-            reserved.
-        </footer>
+        @include('partials.footer')
 
         <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">

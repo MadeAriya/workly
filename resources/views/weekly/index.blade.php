@@ -73,69 +73,58 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Data Weekly</h3>
+                                <div class="card-header">
+                                    <h3 class="card-title">Data Weekly</h3>
+                                    <div class="card-tools">
+                                        <a href="{{ route('manage_weekly.create') }}" class="btn btn-primary">
+                                            <i class="fas fa-plus"></i> Tambah Data
+                                        </a>
                                     </div>
-                                    <!-- /.card-header -->
-                                    <div class="card-body">
-                                        <button class="btn btn-primary mb-2">
-                                            <a href="{{ route('manage_weekly.create') }}" class="text-white">Tambah Data</a>
-                                        </button>
-                                        <table id="example1" class="table table-bordered table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>No</th>
-                                                    <th>Jabatan</th>
-                                                    <th>Minggu Ke</th>
-                                                    <th>Tanggal Mulai</th>
-                                                    <th>Tanggal Selesai</th>
-                                                    <th>KPI - Sasaran Kerja</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($weekly as $row)
-                                                <tr>
-                                                    <th>{{ $row->id }}</th>
-                                                    <th>{{ $row->jabatan }}</th>
-                                                    <th>{{ $row->minggu }}</th>
-                                                    <th>{{ $row->tanggalMulai }}</th>
-                                                    <th>{{ $row->tanggalSelesai }}</th>
-                                                    <th>
-                                                        <ul>
-                                                            @foreach($row->target as $item)
-                                                                <li style="list-style-type:none;">{{ $item }}</li>
-                                                            @endforeach
-                                                        </ul>
-                                                    </th>
-                                                    <th class="d-flex">
-                                                        <button class="btn btn-warning mr-2"><a
-                                                                href="{{ route('manage_weekly.show', $row->id) }}"
-                                                                class="text-white">Edit</a></button>
-                                                        <form method="post"
-                                                            action="{{ route('manage_weekly.delete', $row->id) }}">
-                                                            {{ csrf_field() }}
-                                                            <button class="btn btn-danger">Delete</a></button>
-                                                        </form>
-                                                    </th>
-                                                </tr>
-                                                @endforeach
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>No</th>
-                                                    <th>Jabatan</th>
-                                                    <th>Minggu Ke</th>
-                                                    <th>Tanggal Mulai</th>
-                                                    <th>Tanggal Selesai</th>
-                                                    <th>KPI - Sasaran Kerja</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                    </div>
-                                    <!-- /.card-body -->
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <table id="example1" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Jabatan</th>
+                                                <th>Minggu Ke</th>
+                                                <th>Tanggal Mulai</th>
+                                                <th>Tanggal Selesai</th>
+                                                <th>KPI - Sasaran Kerja</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($weekly as $row)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $row->jabatan }}</td>
+                                                <td>{{ $row->minggu }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($row->tanggalMulai)->format('Y-m-d') }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($row->tanggalSelesai)->format('Y-m-d') }}</td>
+                                                <td>
+                                                    <ul>
+                                                        @foreach($row->target as $item)
+                                                            <li style="list-style-type:none;">{{ $item }}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                </td>
+                                                <td>
+                                                    <a href="{{ route('manage_weekly.show', $row->id) }}" class="btn btn-warning btn-sm" data-toggle="tooltip" title="Edit Data">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <form method="post" action="{{ route('manage_weekly.delete', $row->id) }}" style="display: inline-block;">
+                                                        {{ csrf_field() }}
+                                                        <button type="submit" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Hapus Data" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <!-- /.card -->
                             </div>
@@ -149,13 +138,7 @@
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
-        <footer class="main-footer">
-            <div class="float-right d-none d-sm-block">
-                <b>Version</b> 3.2.0
-            </div>
-            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
-            reserved.
-        </footer>
+        @include('partials.footer')
 
         <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">

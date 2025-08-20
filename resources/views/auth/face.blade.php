@@ -13,13 +13,25 @@
     <title>Mobile Performance List</title>
 </head>
 
-<body>
-    <div class="d-flex justify-content-center flex-column align-items-center">
-        <h4>Absen Wajah Terlebih Dahulu! Pastikan muka terlihat jelas..</h4>
-        <div class="col">
-            <div class="webcam-capture"></div>
+<body class="bg-light">
+    <div class="container">
+        <div class="row justify-content-center align-items-center vh-100">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h4 class="card-title">Absen Wajah</h4>
+                    </div>
+                    <div class="card-body text-center">
+                        <p>Pastikan wajah Anda terlihat jelas di dalam frame.</p>
+                        <div class="webcam-capture mx-auto"></div>
+                        <button id="takeabsen" class="btn btn-primary w-50 mt-3">
+                            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                            Ambil Gambar
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <button id="takeabsen" class="btn btn-primary w-25 mt-2">Absen Masuk</button>
     </div>
 </body>
 <script>
@@ -44,6 +56,14 @@
                 image: image,
             },
             cache: false,
+            beforeSend: function() {
+                $('#takeabsen').prop('disabled', true);
+                $('#takeabsen .spinner-border').removeClass('d-none');
+            },
+            complete: function() {
+                $('#takeabsen').prop('disabled', false);
+                $('#takeabsen .spinner-border').addClass('d-none');
+            },
             // Nangkep data json dari Network
             success: function(response) {
                 if (response.success) {

@@ -32,6 +32,7 @@ Route::get('/dashboard', [DashboardController::class, 'dashboardAdmin'])->name('
 Route::middleware('admin')->group(function(){
     Route::get('/register', [RegisteredController::class, 'create'])->name('user.index');
     Route::post('/register', [RegisteredController::class, 'store'])->name('user.store');
+    Route::post('/register/delete/{id}', [RegisteredController::class, 'delete'])->name('user.delete');
 });
 
 // Route Login

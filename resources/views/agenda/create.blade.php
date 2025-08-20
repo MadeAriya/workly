@@ -133,13 +133,34 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div id="preview_1"></div>
-                                            <input type="file" name="dokumentasi_1" id="dokumentasi_1"
-                                                class="dokumentasi_1">
-                                            <div id="preview_2"></div>
-                                            <input type="file" name="dokumentasi_2" id="dokumentasi_2">
-                                            <div id="preview_3"></div>
-                                            <input type="file" name="dokumentasi_3" id="dokumentasi_3">
+                                            <label for="exampleInputFile">Dokumentasi</label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="file" class="custom-file-input" name="dokumentasi_1" id="dokumentasi_1">
+                                                    <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                                </div>
+                                            </div>
+                                            <img id="preview_1" src="#" alt="your image" class="mt-3" style="display:none; width: 100%;"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputFile">Dokumentasi 2</label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="file" class="custom-file-input" name="dokumentasi_2" id="dokumentasi_2">
+                                                    <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                                </div>
+                                            </div>
+                                            <img id="preview_2" src="#" alt="your image" class="mt-3" style="display:none; width: 100%;"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputFile">Dokumentasi 3</label>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input type="file" class="custom-file-input" name="dokumentasi_3" id="dokumentasi_3">
+                                                    <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                                </div>
+                                            </div>
+                                            <img id="preview_3" src="#" alt="your image" class="mt-3" style="display:none; width: 100%;"/>
                                         </div>
                                     </div>
                                     <!-- /.card-body -->
@@ -155,13 +176,7 @@
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
-        <footer class="main-footer">
-            <div class="float-right d-none d-sm-block">
-                <b>Version</b> 3.2.0
-            </div>
-            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
-            reserved.
-        </footer>
+        @include('partials.footer')
 
         <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">
@@ -202,28 +217,6 @@
     <script src="/lte/js/demo.js"></script>
     <!-- Page specific script -->
     <script>
-        function setupImagePreview(inputId, previewId) {
-            document.getElementById(inputId).addEventListener('change', function(event) {
-                const file = event.target.files[0];
-                const preview = document.getElementById(previewId);
-
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        preview.src = e.target.result;
-                        preview.style.display = 'block';
-                    };
-                    reader.readAsDataURL(file);
-                } else {
-                    preview.src = '#';
-                    preview.style.display = 'none';
-                }
-            });
-        }
-
-        setupImagePreview('dokumentasi_1', 'preview_1');
-        setupImagePreview('dokumentasi_2', 'preview_2');
-        setupImagePreview('dokumentasi_3', 'preview_3');
         $(function() {
             bsCustomFileInput.init();
         });
@@ -239,60 +232,26 @@
             });
         });
 
-        // DropzoneJS Demo Code Start
-        Dropzone.autoDiscover = false
-
-        // Get the template HTML and remove it from the doumenthe template HTML and remove it from the doument
-        var previewNode = document.querySelector("#template")
-        previewNode.id = ""
-        var previewTemplate = previewNode.parentNode.innerHTML
-        previewNode.parentNode.removeChild(previewNode)
-
-        var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
-            url: "/target-url", // Set the url
-            thumbnailWidth: 80,
-            thumbnailHeight: 80,
-            parallelUploads: 20,
-            previewTemplate: previewTemplate,
-            autoQueue: false, // Make sure the files aren't queued until manually added
-            previewsContainer: "#previews", // Define the container to display the previews
-            clickable: ".fileinput-button" // Define the element that should be used as click trigger to select files.
-        })
-
-        myDropzone.on("addedfile", function(file) {
-            // Hookup the start button
-            file.previewElement.querySelector(".start").onclick = function() {
-                myDropzone.enqueueFile(file)
+        function readURL(input, previewId) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $(previewId).attr('src', e.target.result);
+                    $(previewId).show();
+                }
+                reader.readAsDataURL(input.files[0]);
             }
-        })
-
-        // Update the total progress bar
-        myDropzone.on("totaluploadprogress", function(progress) {
-            document.querySelector("#total-progress .progress-bar").style.width = progress + "%"
-        })
-
-        myDropzone.on("sending", function(file) {
-            // Show the total progress bar when upload starts
-            document.querySelector("#total-progress").style.opacity = "1"
-            // And disable the start button
-            file.previewElement.querySelector(".start").setAttribute("disabled", "disabled")
-        })
-
-        // Hide the total progress bar when nothing's uploading anymore
-        myDropzone.on("queuecomplete", function(progress) {
-            document.querySelector("#total-progress").style.opacity = "0"
-        })
-
-        // Setup the buttons for all transfers
-        // The "add files" button doesn't need to be setup because the config
-        // `clickable` has already been specified.
-        document.querySelector("#actions .start").onclick = function() {
-            myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED))
         }
-        document.querySelector("#actions .cancel").onclick = function() {
-            myDropzone.removeAllFiles(true)
-        }
-        // DropzoneJS Demo Code End
+
+        $("#dokumentasi_1").change(function(){
+            readURL(this, '#preview_1');
+        });
+        $("#dokumentasi_2").change(function(){
+            readURL(this, '#preview_2');
+        });
+        $("#dokumentasi_3").change(function(){
+            readURL(this, '#preview_3');
+        });
 
         //Date and time picker
         $('#reservationdatetime').datetimepicker({

@@ -49,7 +49,7 @@
                     </div>
                     <div class="form-group">
                         <label for="status">Status</label>
-                        <select name="status" id="status" class="form-control select2bs4">
+                        <select name="status" id="status" class="form-control select2bs4" required>
                             <option>Pilih Status Bekerja</option>
                             <option value="wfo">WFO - Kerja di kantor</option>
                             <option value="wfh">WFH - Kerja di rumah</option>

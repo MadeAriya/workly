@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Mobile Performance List</title>
+    <title>Data Pengguna</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -14,7 +14,6 @@
     <!-- DataTables -->
     <link rel="stylesheet" href="/lte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="/lte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-    <link rel="stylesheet" href="/lte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="/lte/css/adminlte.min.css">
 </head>
@@ -48,81 +47,68 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Data Pengguna</h3>
-                                    </div>
-                                    <!-- /.card-header -->
-                                    <div class="card-body">
-                                        <button type="button" class="btn btn-primary mb-2" data-toggle="modal"
+                                <div class="card-header">
+                                    <h3 class="card-title">Data Pengguna</h3>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
                                             data-target="#modal-add-user">
-                                            Tambah Pengguna
+                                            <i class="fas fa-plus"></i> Tambah Pengguna
                                         </button>
-                                        <table id="example1" class="table table-bordered table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>No</th>
-                                                    <th>Username</th>
-                                                    <th>Jabatan</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($user as $row)
-                                                    <tr>
-                                                        <th>{{ $row->id }}</th>
-                                                        <th>{{ $row->username }}</th>
-                                                        <th>{{ $row->jabatan }}</th>
-                                                        <th>
-                                                            <div class="btn-group">
-                                                                <button type="button"
-                                                                    class="btn btn-success" data-toggle="dropdown">Laporan</button>
-                                                                <button type="button"
-                                                                    class="btn btn-secondary dropdown-toggle dropdown-icon"
-                                                                    data-toggle="dropdown">
-                                                                    <span class="sr-only">Toggle Dropdown</span>
-                                                                </button>
-                                                                <div class="dropdown-menu" role="menu">
-                                                                    <a class="dropdown-item" href="{{ route('user_agenda', $row->id) }}">Laporan Kinerja</a>
-                                                                    <a class="dropdown-item" href="{{ route('user_weekly', $row->id) }}">Laporan Mingguan</a>
-                                                                </div>
-                                                            </div>
-                                                            <button class="btn btn-secondary"><a class="text-white" href="{{ route('user_absence', $row->id) }}">Absensi</a></button>
-                                                        </th>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>Id</th>
-                                                    <th>Username</th>
-                                                    <th>Jabatan</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
                                     </div>
-                                    <!-- /.card-body -->
                                 </div>
-                                <!-- /.card -->
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <table id="example1" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Username</th>
+                                                <th>Jabatan</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($user as $row)
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $row->username }}</td>
+                                                    <td>{{ $row->jabatan }}</td>
+                                                    <td>
+                                                        <a href="{{ route('user_agenda', $row->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" title="Lihat Laporan Kinerja">
+                                                            <i class="fas fa-file-alt"></i>
+                                                        </a>
+                                                        <a href="{{ route('user_weekly', $row->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" title="Lihat Laporan Mingguan">
+                                                            <i class="fas fa-calendar-week"></i>
+                                                        </a>
+                                                        <a href="{{ route('user_absence', $row->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" title="Lihat Absensi">
+                                                            <i class="fas fa-clipboard-check"></i>
+                                                        </a>
+                                                        <form method="post" action="{{ route('user.delete', $row->id) }}" style="display: inline-block;">
+                                                            {{csrf_field()}}
+                                                            <button type="submit" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Hapus Pengguna" onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
                             </div>
-                            <!-- /.col -->
+                            <!-- /.card -->
                         </div>
-                        <!-- /.row -->
+                        <!-- /.col -->
                     </div>
-                    <!-- /.container-fluid -->
+                    <!-- /.row -->
                 </div>
+                <!-- /.container-fluid -->
             </section>
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
-        <footer class="main-footer">
-            <div class="float-right d-none d-sm-block">
-                <b>Version</b> 3.2.0
-            </div>
-            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
-            reserved.
-        </footer>
+        @include('partials.footer')
 
         <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">
@@ -132,46 +118,47 @@
     </div>
     <!-- ./wrapper -->
 
-    
-
     <div class="modal fade" id="modal-add-user">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Add User</h4>
+                    <h4 class="modal-title">Tambah Pengguna</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('user.store') }}" method="post">
-                        {{ csrf_field() }}
+                    <form action="{{ route('user.store') }}" method="post" id="addUserForm">
+                        @csrf
                         <div class="form-group">
                             <label for="username">Username</label>
-                            <input type="text" class="form-control" id="username" name="username">
+                            <input type="text" class="form-control" id="username" name="username" required>
                         </div>
                         <div class="form-group">
                             <label for="password">Password</label>
-                            <input type="text" class="form-control" id="password" name="password">
+                            <input type="password" class="form-control" id="password" name="password" required>
                         </div>
                         <div class="form-group">
                             <label for="jabatan">Jabatan</label>
-                            <select name="jabatan" id="jabatan" class="form-control">
+                            <select name="jabatan" id="jabatan" class="form-control" required>
+                                <option value="">Pilih Jabatan</option>
                                 <option value="admin">Administrator</option>
                                 <option value="worker">Worker</option>
                             </select>
                         </div>
+                    </form>
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="submit" class="btn btn-primary" form="addUserForm">Simpan</button>
                 </div>
-                </form>
             </div>
             <!-- /.modal-content -->
         </div>
         <!-- /.modal-dialog -->
     </div>
+
+    <!-- jQuery -->
     <script src="/lte/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="/lte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -180,42 +167,17 @@
     <script src="/lte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
     <script src="/lte/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
     <script src="/lte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-    <script src="/lte/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="/lte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-    <script src="/lte/plugins/jszip/jszip.min.js"></script>
-    <script src="/lte/plugins/pdfmake/pdfmake.min.js"></script>
-    <script src="/lte/plugins/daterangepicker/daterangepicker.js"></script>
-    <script src="/lte/plugins/pdfmake/vfs_fonts.js"></script>
-    <script src="/lte/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-    <script src="/lte/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-    <script src="/lte/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
     <!-- AdminLTE App -->
     <script src="/lte/js/adminlte.min.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="/lte/js/demo.js"></script>
-
     <!-- Page specific script -->
     <script>
-        $(function() {
+        $(function () {
             $("#example1").DataTable({
                 "responsive": true,
                 "lengthChange": false,
                 "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
             });
-        });
-
-        $('#reservationdate').datetimepicker({
-            format: 'L'
+            $('[data-toggle="tooltip"]').tooltip()
         });
     </script>
 </body>

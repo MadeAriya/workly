@@ -77,79 +77,62 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Data Kinerja</h3>
+                                <div class="card-header">
+                                    <h3 class="card-title">Data Kinerja</h3>
+                                    <div class="card-tools">
+                                        <a href="{{ route('manage_agenda.create') }}" class="btn btn-primary">
+                                            <i class="fas fa-plus"></i> Tambah Data
+                                        </a>
                                     </div>
-                                    <!-- /.card-header -->
-                                    <div class="card-body">
-                                        <button class="btn btn-primary mb-2">
-                                            <a href="{{ route('manage_agenda.create') }}" class="text-white">Tambah
-                                                Data</a>
-                                        </button>
-                                        <table id="example1" class="table table-bordered table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>No</th>
-                                                    <th>Nama Kegiatan</th>
-                                                    <th>Waktu</th>
-                                                    <th>Tempat</th>
-                                                    <th>Agenda</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($agenda as $row)
-                                                    <tr>
-                                                        <th>{{ $row->id }}</th>
-                                                        <th>{{ $row->nama }}</th>
-                                                        <th>{{ $row->waktu }}</th>
-                                                        <th>{{ $row->tempat }}</th>
-                                                        <th>{{ $row->agenda }}</th>
-                                                        <th class="grid">
-                                                            <div class="row">
-                                                                <div class="col">
-                                                                    <button class="btn btn-warning"><a
-                                                                            href="{{ route('manage_agenda.show', $row->id) }}"
-                                                                            class="text-white">Edit</a></button>
-                                                                </div>
-                                                                <div class="col">
-                                                                    <form method="post"
-                                                                        action="{{ route('manage_agenda.delete', $row->id) }}">
-                                                                        {{ csrf_field() }}
-                                                                        <button class="btn btn-danger">Delete</a></button>
-                                                                    </form>
-                                                                </div>
-                                                                <div class="col">
-                                                                    <form action="{{ route('manage_agenda.giveskor', $row->id) }}" method="POST">
-                                                                    {{ csrf_field() }}
-                                                                        @if (Auth::check() && Auth::user()->jabatan === 'admin')
-                                                                            <div class="form-group">
-                                                                                <input type="number" class="form-control" id="skor" placeholder="Enter skor" name="skor">
-                                                                            </div>
-                                                                        @endif
-                                                                </form>
-                                                                </div>
-                                                            </div>
-                                                        </th>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>No</th>
-                                                    <th>Nama Kegiatan</th>
-                                                    <th>Waktu</th>
-                                                    <th>Tempat</th>
-                                                    <th>Agenda</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                    </div>
-                                    <!-- /.card-body -->
                                 </div>
-                                <!-- /.card -->
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <table id="example1" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Nama Kegiatan</th>
+                                                <th>Waktu</th>
+                                                <th>Tempat</th>
+                                                <th>Agenda</th>
+                                                <th>Skor</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($agenda as $row)
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $row->nama }}</td>
+                                                    <td>{{ $row->waktu }}</td>
+                                                    <td>{{ $row->tempat }}</td>
+                                                    <td>{{ $row->agenda }}</td>
+                                                    <td>{{ $row->skor ?? 'Belum dinilai' }}</td>
+                                                    <td>
+                                                        <div class="btn-group">
+                                                            <button type="button" class="btn btn-default">Action</button>
+                                                            <button type="button" class="btn btn-default dropdown-toggle dropdown-icon"
+                                                                data-toggle="dropdown">
+                                                                <span class="sr-only">Toggle Dropdown</span>
+                                                            </button>
+                                                            <div class="dropdown-menu" role="menu">
+                                                                <a class="dropdown-item" href="{{ route('manage_agenda.show', $row->id) }}">Edit</a>
+                                                                <form method="post" action="{{ route('manage_agenda.delete', $row->id) }}">
+                                                                    {{ csrf_field() }}
+                                                                    <button type="submit" class="dropdown-item">Delete</button>
+                                                                </form>
+                                                                @if (Auth::check() && Auth::user()->jabatan === 'admin')
+                                                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modal-give-skor-{{ $row->id }}">Beri Skor</a>
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
                             </div>
                             <!-- /.col -->
                         </div>
@@ -161,13 +144,7 @@
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
-        <footer class="main-footer">
-            <div class="float-right d-none d-sm-block">
-                <b>Version</b> 3.2.0
-            </div>
-            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
-            reserved.
-        </footer>
+        @include('partials.footer')
 
         <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">

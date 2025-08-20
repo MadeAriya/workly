@@ -95,6 +95,8 @@
                                                     <th>Nama Karyawan</th>
                                                     <th>Bulan</th>
                                                     <th>Jml. Kehadiran</th>
+                                                    <th>Izin</th>
+                                                    <th>Sakit</th>
                                                     <th>Rata2 Kinerja</th>
                                                     <th>Evaluasi Admin</th>
                                                     <th>Catatan</th>
@@ -108,6 +110,8 @@
                                                         <td>{{ $row->user->username }}</td>
                                                         <td>{{ $row->bulan }}</td>
                                                         <td>{{ $row->kehadiran }}</td>
+                                                        <td>{{ $row->izin }}</td>
+                                                        <td>{{ $row->sakit }}</td>
                                                         <td>
                                                             <div class="progress progress-xs">
                                                                 <div class="progress-bar {{ $row->kinerja >= 80 ? 'bg-success' : ($row->kinerja >= 60 ? 'bg-warning' : 'bg-danger') }}" style="width: {{ $row->kinerja }}%"></div>
@@ -140,13 +144,7 @@
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
-        <footer class="main-footer">
-            <div class="float-right d-none d-sm-block">
-                <b>Version</b> 3.2.0
-            </div>
-            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
-            reserved.
-        </footer>
+        @include('partials.footer')
 
         <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">

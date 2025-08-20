@@ -37,11 +37,18 @@ class AgendaController extends Controller
             'agenda' => $request->agenda,
             'pelaksanaan_kegiatan' => $request->pelaksanaan_kegiatan,
             'hasil_kegiatan' => $request->hasil_kegiatan,
-            'dokumentasi_1' => $request->file('dokumentasi_1')->store('dokumentasi/'),
-            'dokumentasi_2' => $request->file('dokumentasi_2')->store('dokumentasi/'),
-            'dokumentasi_3' => $request->file('dokumentasi_3')->store('dokumentasi/'),
             'skor' => $request->skor,
         ];
+
+        if($request->hasFile('dokumentasi_1')){
+            $data['dokumentasi_1'] = $request->file('dokumentasi_1')->store('dokumentasi/');
+        }
+        if($request->hasFile('dokumentasi_2')){
+            $data['dokumentasi_2'] = $request->file('dokumentasi_2')->store('dokumentasi/');
+        }
+        if($request->hasFile('dokumentasi_3')){
+            $data['dokumentasi_3'] = $request->file('dokumentasi_3')->store('dokumentasi/');
+        }
 
         Agenda::create($data);
         return redirect()->route('manage_agenda')->with('success', 'Data berhasil ditambahkan');
@@ -74,11 +81,18 @@ class AgendaController extends Controller
             'agenda' => $request->agenda,
             'pelaksanaan_kegiatan' => $request->pelaksanaan_kegiatan,
             'hasil_kegiatan' => $request->hasil_kegiatan,
-            'dokumentasi_1' => $request->file('dokumentasi_1')->store('dokumentasi/'),
-            'dokumentasi_2' => $request->file('dokumentasi_2')->store('dokumentasi/'),
-            'dokumentasi_3' => $request->file('dokumentasi_3')->store('dokumentasi/'),
             'skor' => $request->skor,
         ]);
+
+        if($request->hasFile('dokumentasi_1')){
+            $agenda->update(['dokumentasi_1' => $request->file('dokumentasi_1')->store('dokumentasi/')]);
+        }
+        if($request->hasFile('dokumentasi_2')){
+            $agenda->update(['dokumentasi_2' => $request->file('dokumentasi_2')->store('dokumentasi/')]);
+        }
+        if($request->hasFile('dokumentasi_3')){
+            $agenda->update(['dokumentasi_3' => $request->file('dokumentasi_3')->store('dokumentasi/')]);
+        }
         return redirect()->route('manage_agenda')->with('success', 'Data berhasil diedit');
     }
 

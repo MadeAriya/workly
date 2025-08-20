@@ -56,6 +56,18 @@ class EvaluasiController extends Controller
                 ->whereIn('status', ['wfh', 'wfo'])
                 ->count();
 
+            $jumlahSakit = Absen::where('users_id', $userId)
+                ->whereMonth('tanggal', $bulan)
+                ->whereYear('tanggal', $tahun)
+                ->whereIn('status', 'sakit')
+                ->count();
+
+            $jumlahIzin = Absen::where('users_id', $userId)
+                ->whereMonth('tanggal', $bulan)
+                ->whereYear('tanggal', $tahun)
+                ->whereIn('status', 'izin')
+                ->count();
+
             $avgSkor = Agenda::where('users_id', $userId)
                 ->whereMonth('waktu', $bulan)
                 ->whereYear('waktu', $tahun)
@@ -66,6 +78,8 @@ class EvaluasiController extends Controller
             'users_id' => $request->users_id,
             'bulan' => $request->bulan,
             'kehadiran' => $jumlahHadir,
+            'sakit' => $jumlahSakit,
+            'izin' => $jumlahIzin,
             'kinerja' => $avgSkor,
             'evaluasi_admin' => $request->evaluasi_admin,
             'catatan' => $request->catatan,

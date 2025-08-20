@@ -77,7 +77,7 @@
                 @if (Auth::check() && Auth::user()->jabatan === 'admin')
                     <li class="nav-item">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-search"></i>
+                            <i class="nav-icon fas fa-users-cog"></i>
                             <p>
                                 Administrasi
                                 <i class="fas fa-angle-left right"></i>
@@ -86,31 +86,32 @@
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="{{ route('user.index') }}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="fas fa-users nav-icon"></i>
                                     <p>Manage Pekerja</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('manage_evaluasi') }}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="fas fa-chart-line nav-icon"></i>
                                     <p>Evaluasi Kerja</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('manage_payrolls') }}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="fas fa-file-invoice-dollar nav-icon"></i>
                                     <p>Payrolls</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('manage_slipgaji') }}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="fas fa-receipt nav-icon"></i>
                                     <p>Slip Gaji</p>
                                 </a>
                             </li>
                         </ul>
                     </li>
                 @endif
+                <li class="nav-header">USER MENU</li>
                 <li class="nav-item">
                     <a href="{{ route('dashboard') }}" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -121,7 +122,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('manage_absensi') }}" class="nav-link">
-                        <i class="nav-icon fas fa-history"></i>
+                        <i class="nav-icon fas fa-user-check"></i>
                         <p>
                             Absen
                         </p>
@@ -129,7 +130,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('manage_calender') }}" class="nav-link">
-                        <i class="nav-icon fa fa-calendar"></i>
+                        <i class="nav-icon fas fa-calendar-alt"></i>
                         <p>
                             Agenda
                         </p>
@@ -137,7 +138,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('manage_agenda') }}" class="nav-link">
-                        <i class="nav-icon fa fa-box"></i>
+                        <i class="nav-icon fas fa-file-alt"></i>
                         <p>
                             Laporan Kinerja
                         </p>
@@ -145,7 +146,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('manage_weekly') }}" class="nav-link">
-                        <i class="nav-icon fa fa-money-bill"></i>
+                        <i class="nav-icon fas fa-tasks"></i>
                         <p>
                             Program Mingguan
                         </p>
@@ -195,5 +196,3 @@
         </div>
     </div>
 </div>
-
-
